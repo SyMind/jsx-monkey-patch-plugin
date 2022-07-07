@@ -2,15 +2,32 @@ import {Compiler, NormalModule} from 'webpack'
 
 const PLUGIN_NAME = 'JSXMonkeyPatchPlugin'
 
+interface JSXMonkeyPatchPluginOptions {
+    path: string
+}
+
 class JSXMonkeyPatchPlugin {
+    path: string
+
+    constructor(options: JSXMonkeyPatchPluginOptions) {
+        this.path = options.path
+    }
+
     apply(compiler: Compiler): void {
         const isWebpackV5 = compiler.webpack && compiler.webpack.version >= '5'
 
         compiler.hooks.compilation.tap(PLUGIN_NAME, compilation => {
-            function tapCallback(_: any, normalModule: NormalModule) {
+            const tapCallback = (_: any, normalModule: NormalModule): void => {
                 const rawRequest = normalModule.rawRequest || ''
                 if (['react/jsx-runtime', 'react/jsx-dev-runtime'].includes(rawRequest)) {
-                    // TODO
+                    normalModule.loaders.push({
+                        loader: require.resolve('./loader'),
+                        options: {
+                            path: this.path
+                        },
+                        ident: null,
+                        type: null
+                    })
                 }
             }
 
