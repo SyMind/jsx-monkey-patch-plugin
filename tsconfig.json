@@ -1,0 +1,23 @@
+{
+    "include": [
+        "src"
+    ],
+    "exclude": [
+        "node_modules",
+        "test-project",
+        "lib"
+    ],
+    "compilerOptions": {
+        "allowJs": true,
+        "rootDir": "src",
+        "outDir": "lib",
+        "moduleResolution": "node",
+        "target": "ES2020",
+        "module": "CommonJS",
+        "strict": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "declarationMap": false,
+        "sourceMap": true
+    }
+}
